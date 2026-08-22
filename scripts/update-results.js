@@ -61,11 +61,19 @@ async function updateFixtureResult(fixtureId, result, homeScore, awayScore) {
     headers: {
       apikey: SERVICE_ROLE_KEY,
       'Content-Type': 'application/json',
-      Prefer: 'return=minimal',
+      Prefer: 'return=representation',
     },
     body: JSON.stringify({ result, home_score: homeScore, away_score: awayScore }),
   });
   if (!res.ok) throw new Error(`Failed to update fixture ${fixtureId}: ${res.status} ${await res.text()}`);
+  const rows = await res.json();
+  if (!Array.isArray(rows) || rows.length === 0) {
+    throw new Error(
+      `Update for fixture ${fixtureId} returned success but changed 0 rows. This usually means ` +
+      `SUPABASE_SERVICE_ROLE_KEY is not the correct Secret key (double-check it in Supabase -> ` +
+      `Project Settings -> API Keys, and that it's pasted correctly into the GitHub secret).`
+    );
+  }
 }
 
 async function main() {
