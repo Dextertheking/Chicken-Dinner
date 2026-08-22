@@ -78,8 +78,23 @@ async function main() {
 
   const finished = await getFinishedMatches();
   console.log(`Finished matches found on football-data.org: ${finished.length}`);
+  for (const m of finished) {
+    console.log(
+      `  API match: "${m.homeTeam.name}" vs "${m.awayTeam.name}" -> normalized: "${normalizeTeamName(m.homeTeam.name)}" vs "${normalizeTeamName(m.awayTeam.name)}"`
+    );
+  }
 
   let updated = 0;
+
+  const now = new Date();
+  console.log('Our unresulted fixtures that have already kicked off:');
+  for (const fixture of unresulted) {
+    if (new Date(fixture.kickoff) < now) {
+      console.log(
+        `  Our fixture: "${fixture.home_team}" vs "${fixture.away_team}" -> normalized: "${normalizeTeamName(fixture.home_team)}" vs "${normalizeTeamName(fixture.away_team)}"`
+      );
+    }
+  }
 
   for (const fixture of unresulted) {
     const home = normalizeTeamName(fixture.home_team);
