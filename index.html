@@ -11,7 +11,7 @@
 <script>
 const sb=supabase.createClient(window.CHICKEN_DINNER_CONFIG.supabaseUrl,window.CHICKEN_DINNER_CONFIG.supabasePublishableKey);
 let fixtures=[];let myPredictions={};let myLeagues=[];let currentUser=null;let currentGameweek=1;let currentUsername='';let chickenDinnerUsed=false;let chickenDinnerGameweek=null;let joinDate=null;let currentAvatarEmoji=null;
-const AVATAR_EMOJIS=['🍗','🐔','⚽','🏆','🔥','😎','🦁','🐯','🍕','🍔','🎯','🚀','💪','🥇','🎉','👑','🐐','😈','🎮','🍀'];
+const AVATAR_EMOJIS=['🍗','🐔','⚽','🏆','🔥','😎','🦁','🐯','🍕','🍔','🎯','🚀','💪','🥇','🎉','👑','🐐','😈','🎮','🍀','🚬','🤡','🙈','🍆','☠️','👽','🐭','🦖','🦆','🧟\u200d♀️','⛷️','🍾','🚗'];
 function toast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2200)}
 async function sendCode(){const email=document.getElementById('email').value.trim();const msg=document.getElementById('authMsg');if(!email)return toast('Enter your email first.');const {error}=await sb.auth.signInWithOtp({email});if(error){msg.textContent=error.message;return}document.getElementById('email').disabled=true;document.getElementById('sendCodeBtn').style.display='none';document.getElementById('code').style.display='block';document.getElementById('verifyCodeBtn').style.display='block';msg.textContent='Check your inbox — enter the 8-digit code below.'}
 async function verifyCode(){const email=document.getElementById('email').value.trim();const token=document.getElementById('code').value.trim();const msg=document.getElementById('authMsg');if(!token)return toast('Enter the code from your email.');const {error}=await sb.auth.verifyOtp({email,token,type:'email'});if(error){msg.textContent=error.message;return}}
