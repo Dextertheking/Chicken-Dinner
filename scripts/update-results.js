@@ -22,7 +22,7 @@ if (!SUPABASE_URL || !SERVICE_ROLE_KEY || !FOOTBALL_DATA_API_KEY) {
 function normalizeTeamName(name) {
   return name
     .toLowerCase()
-    .replace(/\bfc\b/g, '')
+    .replace(/\b(afc|fc)\b/g, '')
     .replace(/[^a-z0-9]+/g, ' ')
     .trim()
     .replace(/\s+/g, ' ');
