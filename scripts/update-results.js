@@ -28,6 +28,10 @@ function normalizeTeamName(name) {
     .replace(/\s+/g, ' ');
 }
 
+function namesMatch(a, b) {
+  return a === b || a.includes(b) || b.includes(a);
+}
+
 async function getUnresultedFixtures() {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/fixtures?result=is.null&select=id,home_team,away_team,kickoff`,
@@ -110,8 +114,8 @@ async function main() {
 
     const match = finished.find(
       (m) =>
-        normalizeTeamName(m.homeTeam.name) === home &&
-        normalizeTeamName(m.awayTeam.name) === away
+        namesMatch(normalizeTeamName(m.homeTeam.name), home) &&
+        namesMatch(normalizeTeamName(m.awayTeam.name), away)
     );
 
     if (!match) continue;
